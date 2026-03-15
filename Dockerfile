@@ -13,6 +13,6 @@ COPY --from=deps /app/node_modules ./node_modules
 
 COPY . .
 
-EXPOSE 8080
+EXPOSE 4991
 
 CMD ["npm", "start"]
