@@ -13,6 +13,6 @@ COPY --from=deps /app/node_modules ./node_modules
 
 COPY . .
 
-EXPOSE 4991
+EXPOSE 8080
 
 CMD ["node", "bin/www"]
