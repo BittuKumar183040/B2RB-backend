@@ -11,7 +11,7 @@ const app = express();
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(cors({
-  origin: ["http://localhost:5173", "http://resume.betoo.co.in/"],
+  origin: ["http://localhost:5173", "https://resume.betoo.co.in"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "userId"],
