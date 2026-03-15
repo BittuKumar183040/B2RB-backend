@@ -15,4 +15,4 @@ COPY . .
 
 EXPOSE 8080
 
-CMD ["node", "bin/www"]
+CMD ["npm", "start"]
