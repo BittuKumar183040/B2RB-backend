@@ -14,7 +14,7 @@ router.get(
   passport.authenticate("google", { session: false }),
   (req, res) => {
     const token = req.user.token;
-
+    console.log(req.user);
     res.cookie("token", token, {
       httpOnly: true,
       secure: env.NODE_ENV === "production",

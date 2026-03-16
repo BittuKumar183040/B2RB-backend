@@ -34,10 +34,9 @@ router.post("/login", (req, res) => {
 
 router.get("/me", verifyToken, (req, res) => {
   try {
-    console.info(req);
     return res.status(200).json({
       success: true,
-      user: { id: "b2", email: "admin@gmail.com", username: "admin" },
+      user: { id: "b2", email: "admin@gmail.com", name: "Bittu Kumar", picture: "https://lh3.googleusercontent.com/a/ACg8ocJvrxxgsnmUA-P6Z_ls-6feiG1En12qhcXoOIfk5riYsCdIjOVy6g=s96-c" },
     });
   }
   catch (error) {
