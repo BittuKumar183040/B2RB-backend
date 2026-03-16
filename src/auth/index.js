@@ -29,14 +29,15 @@ router.post("/login", (req, res) => {
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
-  return res.status(result && result.success ? 200 : 404).json(result);
+  return res.status(result && result.success ? 200 : 404).json({ success: "Login Successful" });
 });
 
 router.get("/me", verifyToken, (req, res) => {
   try {
+    console.info(req);
     return res.status(200).json({
       success: true,
-      user: req.user,
+      user: { id: "b2", email: "admin@gmail.com", username: "admin" },
     });
   }
   catch (error) {

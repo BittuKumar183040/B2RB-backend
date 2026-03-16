@@ -11,7 +11,6 @@ export function handleLogin(email, password) {
 
     return {
       success: true,
-      user: { id: "b2", email: "admin@gmail.com", username: "admin" },
       token,
     };
   }

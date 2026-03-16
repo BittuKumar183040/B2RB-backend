@@ -13,7 +13,7 @@ export default antfu({
   rules: {
     "ts/no-redeclare": "off",
     "ts/consistent-type-definitions": ["error", "type"],
-    "no-console": ["warn", { allow: ["warn", "error", "info"] }],
+    "no-console": ["warn", { allow: ["warn", "error", "info", "log"] }],
     "antfu/no-top-level-await": ["off"],
     "node/prefer-global/process": ["off"],
     "node/no-process-env": ["error"],
