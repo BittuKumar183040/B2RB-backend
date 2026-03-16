@@ -2,12 +2,13 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import session from "express-session";
-
 import helmet from "helmet";
 import morgan from "morgan";
 import googleAuth from "./auth/google-auth.js";
 import passport from "./auth/google-strategy.js";
 import auth from "./auth/index.js";
+import { testDbConnection } from "./db/test-connection.js";
+import logger from "./logger/index.js";
 import * as middlewares from "./middlewares.js";
 
 const app = express();
@@ -40,10 +41,13 @@ passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
 app.get("/", (req, res) => {
+  logger.info("Root endpoint hit");
   res.json({
     message: "🦄🌈✨👋🌎🌍🌏✨🌈🦄",
   });
 });
+
+testDbConnection();
 
 app.use("/auth/google", googleAuth);
 app.use("/auth", auth);

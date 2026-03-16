@@ -1,5 +1,6 @@
 import express from "express";
 import { env } from "../env.js";
+import logger from "../logger/index.js";
 import { verifyToken } from "../middleware/verify-token.js";
 import service from "./service.js";
 
@@ -11,16 +12,15 @@ router.get("/", (req, res) => {
   });
 });
 
-router.post("/register", (req, res) => {
-  res.json({
-    message: "User registered successfully",
-  });
-});
-
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   console.warn("Login attempt", { email, password });
-  const result = service.handleLogin(email, password);
+  const result = await service.handleLogin(email, password);
+  logger.info("Login result", { email, password, result });
+
+  if (result.success === false) {
+    return res.status(404).json({ success: false, message: result.message });
+  }
 
   res.cookie("token", result.token, {
     httpOnly: true,
@@ -32,6 +32,15 @@ router.post("/login", (req, res) => {
   return res.status(result && result.success ? 200 : 404).json({ success: "Login Successful" });
 });
 
+router.post("/register", async (req, res) => {
+  const { name, email, password } = req.body;
+  if (!name || !email || !password) {
+    return { success: false, message: "Name, email, and password are required" };
+  }
+  const result = await service.registerUser(name, email, password);
+  return res.status(result.success ? 201 : 400).json({ success: result.success, message: result.message });
+});
+
 router.get("/me", verifyToken, (req, res) => {
   try {
     return res.status(200).json({
@@ -40,7 +49,7 @@ router.get("/me", verifyToken, (req, res) => {
     });
   }
   catch (error) {
-    console.info("Error in /auth/me", error);
+    console.info("Error in /auth/me", error.message);
     return res.status(401).json({
       success: false,
       message: "Unauthorized",

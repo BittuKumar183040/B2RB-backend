@@ -7,6 +7,13 @@ const envSchema = z.object({
   FRONTEND_URL: z.string(),
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
+
+  // Database
+  DB_HOST: z.string(),
+  DB_PORT: z.coerce.number().default(5432),
+  DB_NAME: z.string(),
+  DB_USER: z.string(),
+  DB_PASSWORD: z.string(),
 });
 
 try {

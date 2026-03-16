@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { env } from "../env.js";
+import { insertUser } from "../repo/user.js";
 
 passport.use(
   new GoogleStrategy(
@@ -17,6 +18,8 @@ passport.use(
         name: profile.displayName,
         picture: profile.photos[0].value,
       };
+
+      await insertUser(user);
 
       const token = jwt.sign(user, env.JWT_SECRET, { expiresIn: "7d" });
 
