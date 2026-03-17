@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { env } from "../env.js";
 import logger from "../logger/index.js";
-import { checkEmailPassword, insertUser } from "../repo/user.js";
+import { checkEmailPassword, getUserInfoByEmail, insertUser } from "../repo/user.js";
 
 export async function handleLogin(email, password) {
   if (!email || !password) {
@@ -24,7 +24,14 @@ export async function registerUser(name, email, password) {
   return { success: true, message: "User registered successfully" };
 }
 
+export async function getUser(email) {
+  logger.info(`Fetching user by email: ${email}`);
+  const user = await getUserInfoByEmail(email);
+  return user;
+}
+
 export default {
   handleLogin,
   registerUser,
+  getUser,
 };

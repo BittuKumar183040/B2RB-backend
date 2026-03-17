@@ -14,6 +14,13 @@ export async function insertUser({ id, email, name, picture, password, updatedAt
   });
 }
 
+export async function getUserInfoByEmail(email) {
+  logger.info(`Fetching user by email: ${email}`);
+  const user = await db("user").where({ email }).first();
+  logger.info(`User fetched for email ${email}: ${JSON.stringify(user)}`);
+  return user;
+}
+
 export async function checkEmailPassword(email, password) {
   logger.info(`Checking email and password for ${email}`);
 
