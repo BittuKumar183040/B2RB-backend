@@ -47,7 +47,7 @@ app.get("/", (req, res) => {
   });
 });
 
-// testDbConnection();
+testDbConnection();
 
 app.use("/auth/google", googleAuth);
 app.use("/auth", auth);

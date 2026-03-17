@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-APP_NAME="be2b"
-CONTAINER_NAME="b2rb-container"
+APP_NAME="be2b-backend"
+CONTAINER_NAME="b2rb-backend-container"
 ENV_FILE=".env"
 
 if [ -f "$ENV_FILE" ]; then
@@ -34,7 +34,7 @@ podman stop "$CONTAINER_NAME" 2>/dev/null || true
 podman rm "$CONTAINER_NAME" 2>/dev/null || true
 
 echo "▶ Running new container on port $PORT → 4991"
-podman run -d --name "$CONTAINER_NAME" --network b2rb --restart=always -p "${PORT}:4991" "$IMAGE_TAG"
+podman run -d --name "$CONTAINER_NAME" --network b2rb --restart=always --env-file "$ENV_FILE" -e ROOT_FOLDER=/data -v /data/windoes:/data:z -p "${PORT}:4991" "$IMAGE_TAG"
 
 echo "▶ Cleaning old images..."
 podman image prune -f
