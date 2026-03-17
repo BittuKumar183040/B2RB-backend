@@ -1,14 +1,18 @@
+import dotenv from "dotenv";
 import { z } from "zod/v4";
+
+dotenv.config();
 
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   PORT: z.coerce.number().default(3000),
+
   JWT_SECRET: z.string(),
   FRONTEND_URL: z.string(),
+
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
 
-  // Database
   DB_HOST: z.string(),
   DB_PORT: z.coerce.number().default(5432),
   DB_NAME: z.string(),
@@ -16,13 +20,18 @@ const envSchema = z.object({
   DB_PASSWORD: z.string(),
 });
 
+// eslint-disable-next-line import/no-mutable-exports
+let env;
+
 try {
-  // eslint-disable-next-line node/no-process-env
-  envSchema.parse(process.env);
+  env = envSchema.parse(process.env);
 }
 catch (error) {
   if (error instanceof z.ZodError) {
-    console.error("Missing environment variables:", error.issues.flatMap(issue => issue.path));
+    console.error(
+      "Environment validation failed:\n",
+      error.issues.map(i => `• ${i.path}: ${i.message}`).join("\n"),
+    );
   }
   else {
     console.error(error);
@@ -30,5 +39,4 @@ catch (error) {
   process.exit(1);
 }
 
-// eslint-disable-next-line node/no-process-env
-export const env = envSchema.parse(process.env);
+export { env };
