@@ -7,6 +7,7 @@ import morgan from "morgan";
 import googleAuth from "./auth/google-auth.js";
 import passport from "./auth/google-strategy.js";
 import auth from "./auth/index.js";
+import { runMigrations } from "./db/knex/migrate.js";
 import { testDbConnection } from "./db/test-connection.js";
 import logger from "./logger/index.js";
 import * as middlewares from "./middlewares.js";
@@ -33,7 +34,6 @@ app.use(
 );
 
 app.use(express.json());
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -47,7 +47,8 @@ app.get("/", (req, res) => {
   });
 });
 
-testDbConnection();
+await runMigrations();
+await testDbConnection();
 
 app.use("/auth/google", googleAuth);
 app.use("/auth", auth);

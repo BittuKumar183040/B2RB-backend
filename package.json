@@ -12,9 +12,8 @@
   "keywords": [],
   "main": "src/index.js",
   "scripts": {
-    "migrate": "knex migrate:latest --knexfile knexfile.js",
     "start": "node src/index.js",
-    "dev": "node --watch --env-file=.env src/index.js",
+    "knex": "knex --knexfile knexfile.cjs",
     "lint": "eslint --fix src",
     "test": "vitest run"
   },

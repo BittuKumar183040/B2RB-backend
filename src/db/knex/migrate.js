@@ -1,6 +1,7 @@
 import knex from "./knex.js";
 
-export async function runMigrations() {
+// eslint-disable-next-line antfu/top-level-function
+export const runMigrations = async () => {
   try {
     console.log("Running database migrations...");
     await knex.migrate.latest();
@@ -10,4 +11,4 @@ export async function runMigrations() {
     console.error("Migration failed:", error);
     process.exit(1);
   }
-}
+};
