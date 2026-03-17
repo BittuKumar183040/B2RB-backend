@@ -34,7 +34,7 @@ podman stop "$CONTAINER_NAME" 2>/dev/null || true
 podman rm "$CONTAINER_NAME" 2>/dev/null || true
 
 echo "▶ Running new container on port $PORT → 4991"
-podman run -d --name "$CONTAINER_NAME" --network windoes-net --restart=always -p "${PORT}:4991" "$IMAGE_TAG"
+podman run -d --name "$CONTAINER_NAME" --network b2rb --restart=always -p "${PORT}:4991" "$IMAGE_TAG"
 
 echo "▶ Cleaning old images..."
 podman image prune -f
