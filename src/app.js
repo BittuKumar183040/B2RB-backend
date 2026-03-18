@@ -36,6 +36,7 @@ app.use(
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
+app.set("trust proxy", 1);
 
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));

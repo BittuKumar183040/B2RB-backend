@@ -12,18 +12,24 @@ passport.use(
       callbackURL: `${env.BACKEND_URL}/auth/google/callback`,
     },
     async (accessToken, refreshToken, profile, done) => {
-      const user = {
-        id: profile.id,
-        email: profile.emails[0].value,
-        name: profile.displayName,
-        picture: profile.photos[0].value,
-      };
+      try {
+        const user = {
+          id: profile.id,
+          email: profile.emails[0].value,
+          name: profile.displayName,
+          picture: profile.photos[0].value,
+        };
 
-      await insertUser(user);
+        await insertUser(user);
 
-      const token = jwt.sign(user, env.JWT_SECRET, { expiresIn: "7d" });
+        const token = jwt.sign(user, env.JWT_SECRET, { expiresIn: "7d" });
 
-      return done(null, { user, token });
+        return done(null, { user, token });
+      }
+      catch (err) {
+        console.error("❌ Google Strategy Error:", err);
+        return done(err, null);
+      }
     },
   ),
 );
