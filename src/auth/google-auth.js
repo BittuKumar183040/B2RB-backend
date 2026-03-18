@@ -11,7 +11,14 @@ router.get(
 
 router.get(
   "/callback",
-  passport.authenticate("google", { session: false }),
+  (req, res, next) => {
+    console.log("🔥 CALLBACK HIT", req.query);
+    next();
+  },
+  passport.authenticate("google", {
+    session: false,
+    failureRedirect: `${env.FRONTEND_URL}/login`,
+  }),
   (req, res) => {
     const token = req.user.token;
     console.log(req.user);
