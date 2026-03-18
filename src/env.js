@@ -11,6 +11,7 @@ const envSchema = z.object({
 
   JWT_SECRET: z.string(),
   FRONTEND_URL: z.string(),
+  BACKEND_URL: z.string(),
 
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
