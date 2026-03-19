@@ -1,9 +1,19 @@
 #!/usr/bin/env bash
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR" || exit 1
+
 APP_NAME="be2b-backend"
 CONTAINER_NAME="b2rb-backend-container"
 ENV_FILE=".env"
+FORCE=false
+
+while getopts "f" opt; do
+  case $opt in
+    f) FORCE=true ;;
+  esac
+done
 
 if [ -f "$ENV_FILE" ]; then
   export $(grep -v '^#' "$ENV_FILE" | xargs)
@@ -19,6 +29,12 @@ fi
 
 echo "▶ Fetching latest code..."
 git fetch origin
+
+if git diff --quiet HEAD origin/main && [ "$FORCE" = false ]; then
+  echo "No changes. Skipping."
+  exit 0
+fi
+
 git pull origin main
 
 echo "▶ Getting git commit hash..."
