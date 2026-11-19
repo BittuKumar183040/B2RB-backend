@@ -14,9 +14,8 @@ router.get("/", (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  console.warn("Login attempt", { email, password });
   const result = await service.handleLogin(email, password);
-  logger.info("Login result", { email, password, result });
+  logger.info("Login attempt completed", { email, success: result.success });
 
   if (result.success === false) {
     return res.status(404).json({ success: false, message: result.message });

@@ -9,8 +9,10 @@ import passport from "./auth/google-strategy.js";
 import auth from "./auth/index.js";
 import { runMigrations } from "./db/knex/migrate.js";
 import { testDbConnection } from "./db/test-connection.js";
+import { env } from "./env.js";
 import logger from "./logger/index.js";
 import * as middlewares from "./middlewares.js";
+import resumes from "./resumes/index.js";
 
 const app = express();
 
@@ -27,7 +29,7 @@ app.use(cors({
 
 app.use(
   session({
-    secret: "secret",
+    secret: env.JWT_SECRET,
     resave: false,
     saveUninitialized: true,
   }),
@@ -53,6 +55,7 @@ await testDbConnection();
 
 app.use("/auth/google", googleAuth);
 app.use("/auth", auth);
+app.use("/api/resumes", resumes);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);

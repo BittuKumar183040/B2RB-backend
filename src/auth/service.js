@@ -12,7 +12,7 @@ export async function handleLogin(email, password) {
     if (!valid) {
       return { success: false, message: "Invalid email or password" };
     }
-    const token = jwt.sign({ email }, env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ email }, env.JWT_SECRET, { expiresIn: "7d" });
     return { success: true, token };
   }
   return { success: false, message: "Invalid email or password" };
